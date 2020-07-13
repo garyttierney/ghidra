@@ -1,0 +1,18 @@
+strategy:
+  matrix:
+    linux: 
+      imageName: 'ubuntu-16.04'
+    mac:
+      imageName: 'macos-10.14'
+    windows:
+      imageName: 'vs2017-win2016'
+
+pool:
+  vmImage: $(imageName)
+
+steps:
+  - powershell: |
+      Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+      choco install gradle winflexbison openjdk git
+    condition: eq( variables['Agent.OS'], 'Windows_NT' )
+    displayName: (Windows only) Install Chocolatey and build dependencies

@@ -288,7 +288,10 @@ def String searchDependenciesForJar (proj, conf, jarFile) {
 	Set<ProjectDependency> projectDependencies = conf.getAllDependencies().withType(ProjectDependency) 
 	for (ProjectDependency dependency : projectDependencies) {
 		Project dependencyProject = dependency.getDependencyProject()
-		Configuration depProjectConf = dependencyProject.getConfigurations().getByName(conf.getName())
+		Configuration depProjectConf = dependencyProject.getConfigurations().findByName(conf.getName())
+		if (depProjectConf == null) {
+			continue
+		}
 		relPath = findJarInDistribution(dependencyProject, depProjectConf, jarFile);
 		if (relPath != null) {
 			return relPath;

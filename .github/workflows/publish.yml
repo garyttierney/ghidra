@@ -30,7 +30,7 @@ jobs:
       - name: Fetch Ghidra Dependencies
         if: steps.cache-ghidra.outputs.cache-hit != 'true'
         run: |
-          ./gradlew -I gradle/support/fetchDependencies.gradle init
+          ./gradlew -DhideDownloadProgress -I gradle/support/fetchDependencies.gradle
 
       - name: Publish package
         run: ./gradlew publish
